@@ -46,11 +46,11 @@ router.post(
   })
 );
 
-// Dashboard route (protected)
-router.get("/dashboard", (req, res) => {
-  if (!req.isAuthenticated()) return res.redirect("/login");
-  res.send(`Welcome ${req.user.email}`);
-});
+// // Dashboard route (protected)
+// router.get("/dashboard", (req, res) => {
+//   if (!req.isAuthenticated()) return res.redirect("/login");
+//   res.send(`Welcome ${req.user.email}`);
+// });
 
 // Logout
 router.get("/logout", (req, res, next) => {
