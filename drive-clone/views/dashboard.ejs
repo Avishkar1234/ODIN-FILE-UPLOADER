@@ -10,18 +10,44 @@
 
 <h3>Your Folders</h3>
 <ul>
-    <% folders.forEach(folder => { %>
+  <% folders.forEach(folder => { %>
+    <li>
+      <h4><%= folder.name %></h4>
+
+      <!-- Upload Form -->
+      <form method="POST" action="/folders/<%= folder.id %>/upload" enctype="multipart/form-data">
+        <input type="file" name="file" required />
+        <button type="submit">Upload</button>
+      </form>
+
+      <!-- Files -->
+      <ul>
+        <% folder.files.forEach(file => { %>
+          <li>
+            <%= file.name %> (<%= file.size %> bytes)
+          </li>
+        <% }) %>
+      </ul>
+
+      <!-- Rename -->
+      <form method="POST" action="/folders/<%= folder.id %>/rename" style="display:inline;">
+        <input name="name" placeholder="New name" required />
+        <button type="submit">Rename</button>
+      </form>
+
+      <!-- Delete -->
+      <form method="POST" action="/folders/<%= folder.id %>/delete" style="display:inline;">
+        <button type="submit">Delete</button>
+      </form>
+
+      <hr>
+    </li>
+
+    <% folder.files.forEach(file => { %>
         <li>
-            <strong><%= folder.name %></strong>
-
-            <form method="POST" action="/folders/<%= folder.id %>/rename" style="display: inline;;">
-                <input name="name" placeholder="New name" required />
-                <button type="submit">Rename</button>
-            </form>
-
-            <form method="POST" action="/folders/<%= folder.id %>/delete" style="display: inline;">
-                <button type="submit">Delete</button>
-            </form>
+          <a href="<%= file.path %>" target="_blank"><%= file.name %></a>
+          (<%= file.size %> bytes)
         </li>
     <% }) %>
+  <% }) %>
 </ul>

@@ -6,6 +6,7 @@ import "./config/passport.js";
 import connectPgSimple from "connect-pg-simple";
 import authRoutes from "./routes/auth.js";
 import folderRoutes from "./routes/folder.js";
+import fileRoutes from "./routes/file.js"
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.get("/", (req, res) => {
 
 app.use("/", authRoutes);
 app.use("/", folderRoutes);
+app.use("/", fileRoutes);
 
 app.listen(3000, () => {
   console.log("Server started on http://localhost:3000");
