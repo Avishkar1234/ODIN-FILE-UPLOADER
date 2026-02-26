@@ -41,6 +41,11 @@
         <button type="submit">Delete</button>
       </form>
 
+      <form method="POST" action="/folders/<%= folder.id %>/share">
+        <input name="duration" type="number" placeholder="Days (e.g., 1)" required />
+        <button type="submit">Share Folder</button>
+      </form>
+
       <hr>
     </li>
   <% }) %>

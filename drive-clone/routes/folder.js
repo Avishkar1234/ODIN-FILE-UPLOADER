@@ -3,6 +3,7 @@ import { prisma } from "../lib/prisma.js";
 import { ensureAuthenticated } from "../middleware/authMiddleware.js";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+import { v4 as uuidv4 } from "uuid";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import https from "https";
 import http from "http";
@@ -100,5 +101,45 @@ router.get("/files/:id/download", ensureAuthenticated, async (req, res) => {
         stream.pipe(res);
     });
 });
+
+router.post("/folders/:id/share", ensureAuthenticated, async (req, res) => {
+    const folderId = parseInt(req.params.id);
+    const { duration } = req.body;
+
+    const days = parseInt(duration);
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + days);
+
+    const shareLink = await prisma.shareLink.create({
+        data: {
+            uuid: uuidv4(),
+            folderId,
+            expiresAt,
+        },
+    });
+
+    res.send(`Share link: http://localhost:3000/share/${shareLink.uuid}`);
+});
+
+router.get("/share/:uuid", async (req, res) => {
+    const { uuid } = req.params;
+
+    const link = await prisma.shareLink.findUnique({
+        where: { uuid },
+        include: {
+            folder: {
+                include: { files: true },
+            },
+        },
+    });
+
+    if (!link) return res.send("Invalid link");
+
+    if (new Date() > link.expiresAt) {
+        return res.send("Link expired");
+    }
+
+    res.render("sharedFolder", { folder: link.folder });
+})
 
 export default router;

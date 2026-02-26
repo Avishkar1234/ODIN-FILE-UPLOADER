@@ -23,6 +23,7 @@ model Folder {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   files     File[]
+  shareLinks ShareLink[]
   createdAt DateTime @default(now())
 }
 
@@ -46,3 +47,13 @@ model Session {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model ShareLink {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  folderId  Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
