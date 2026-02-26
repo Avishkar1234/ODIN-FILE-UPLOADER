@@ -4,6 +4,8 @@ import { ensureAuthenticated } from "../middleware/authMiddleware.js";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
+import https from "https";
+import http from "http";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -76,6 +78,27 @@ router.post("/folders/:id/upload", ensureAuthenticated, upload.single("file"), a
   });
 
   res.redirect("/dashboard");
+});
+
+// File detail page
+router.get("/files/:id", ensureAuthenticated, async (req, res) => {
+  const fileId = parseInt(req.params.id);
+  const file = await prisma.file.findUnique({ where: { id: fileId } });
+  res.render("file", { file });
+});
+
+//Download
+router.get("/files/:id/download", ensureAuthenticated, async (req, res) => {
+    const fileId = parseInt(req.params.id);
+    const file = await prisma.file.findUnique({ where: { id: fileId }});
+
+    res.setHeader("Content-Disposition", `attachment; filename="${file.name}"`);
+    res.setHeader("Content-Type", "application/octet-stream");
+
+    const protocol = file.path.startsWith("https") ? https : http;
+    protocol.get(file.path, (stream) => {
+        stream.pipe(res);
+    });
 });
 
 export default router;

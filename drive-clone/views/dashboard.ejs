@@ -4,8 +4,8 @@
 
 <h3>Create Folder</h3>
 <form method="POST" action="/folders/create">
-    <input name="name" placeholder="Folder name" required />
-    <button type="submit">Create</button>
+  <input name="name" placeholder="Folder name" required />
+  <button type="submit">Create</button>
 </form>
 
 <h3>Your Folders</h3>
@@ -24,7 +24,8 @@
       <ul>
         <% folder.files.forEach(file => { %>
           <li>
-            <%= file.name %> (<%= file.size %> bytes)
+            <a href="/files/<%= file.id %>"><%= file.name %></a>
+            (<%= file.size %> bytes)
           </li>
         <% }) %>
       </ul>
@@ -42,12 +43,5 @@
 
       <hr>
     </li>
-
-    <% folder.files.forEach(file => { %>
-        <li>
-          <a href="<%= file.path %>" target="_blank"><%= file.name %></a>
-          (<%= file.size %> bytes)
-        </li>
-    <% }) %>
   <% }) %>
 </ul>
