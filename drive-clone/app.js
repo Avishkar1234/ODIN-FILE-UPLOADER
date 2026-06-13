@@ -17,10 +17,11 @@ const app = express();
 const PgStore = connectPgSimple(session);
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   session({
@@ -31,13 +32,17 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    },
+    proxy: true,
   }),
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   res.redirect("/login");
@@ -47,6 +52,11 @@ app.use("/", authRoutes);
 app.use("/", folderRoutes);
 app.use("/", fileRoutes);
 
-app.listen(3000, () => {
-  console.log("Server started on http://localhost:3000");
-});
+// Only listen locally; Vercel uses the exported app as a serverless function
+if (process.env.VERCEL !== "1") {
+  app.listen(3000, () => {
+    console.log("Server started on http://localhost:3000");
+  });
+}
+
+export default app;
