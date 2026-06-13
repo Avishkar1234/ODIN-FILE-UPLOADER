@@ -1,16 +1,39 @@
 <!DOCTYPE html>
+
 <html>
-<head>
-  <title><%= file.name %></title>
-</head>
-<body>
-  <h2>File Details</h2>
-  <p><strong>Name:</strong> <%= file.name %></p>
-  <p><strong>Size:</strong> <%= file.size %> bytes</p>
-  <p><strong>Uploaded At:</strong> <%= file.createdAt %></p>
-  <a href="<%= file.path %>" target="_blank">View File</a>
-  &nbsp;
-  <a href="/files/<%= file.id %>/download">Download</a>  <br><br>
-  <a href="/dashboard">Back to Dashboard</a>
-</body>
+  <head>
+    <title><%= file.name %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      ```
+      <div class="card">
+        <h1>File Details</h1>
+
+        <p><strong>Name:</strong> <%= file.name %></p>
+
+        <p>
+          <strong>Size:</strong>
+          <%= Math.round(file.size / 1024) %> KB
+        </p>
+
+        <p>
+          <strong>Uploaded:</strong>
+          <%= file.createdAt %>
+        </p>
+
+        <div class="actions">
+          <a href="<%= file.path %>" target="_blank" class="btn"> View File </a>
+
+          <a href="/files/<%= file.id %>/download" class="btn"> Download </a>
+        </div>
+
+        <br />
+
+        <a href="/dashboard"> ← Back to Dashboard </a>
+      </div>
+      ```
+    </div>
+  </body>
 </html>

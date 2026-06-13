@@ -1,0 +1,334 @@
+/* ===== Base Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+
+:root {
+  /* Brand Green Theme */
+  --primary: #b2e265;
+  --primary-dark: #8bc53f;
+
+  /* Accent */
+  --accent: #dff2b5;
+  --accent-dark: #cbe88d;
+
+  /* Danger */
+  --danger: #e86d75;
+  --danger-dark: #d9535c;
+
+  /* Backgrounds */
+  --bg: #f7faf2;
+  --surface: #ffffff;
+
+  /* Borders */
+  --border: #dde8cc;
+
+  /* Text */
+  --text: #2d3a22;
+  --text-muted: #6c7760;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  padding: 48px 24px;
+  line-height: 1.6;
+}
+
+/* ===== Layout Container ===== */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===== Header ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  color: #5d8728;
+}
+
+.header p {
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* ===== Headings ===== */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  color: #5d8728;
+}
+
+h2 {
+  margin-bottom: 18px;
+  font-size: 1.3rem;
+}
+
+h3 {
+  margin-bottom: 14px;
+  font-size: 1.1rem;
+}
+
+h4 {
+  margin: 20px 0 12px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ===== Card Style ===== */
+.card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 20px rgba(178, 226, 101, 0.15);
+}
+
+.folder-card {
+  border-left: 5px solid var(--primary);
+}
+
+/* ===== Inputs ===== */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  background: #fcfdf9;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(178, 226, 101, 0.25);
+}
+
+input[type="file"] {
+  padding: 10px;
+}
+
+/* ===== Buttons ===== */
+button,
+.btn {
+  display: inline-block;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: var(--primary);
+  color: #243014;
+  margin: 6px 0;
+}
+
+button:hover,
+.btn:hover {
+  background: var(--primary-dark);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* Danger */
+button.danger,
+.btn.danger {
+  margin-bottom: 60px;
+  background: var(--danger);
+  color: #fff;
+}
+
+button.danger:hover,
+.btn.danger:hover {
+  background: var(--danger-dark);
+}
+
+/* Secondary */
+button.secondary,
+.btn.secondary {
+  background: var(--accent);
+  color: #507124;
+  border: 1px solid #d7ebaf;
+}
+
+button.secondary:hover,
+.btn.secondary:hover {
+  background: var(--accent-dark);
+  color: #3d551a;
+}
+
+/* ===== Folder List / File List ===== */
+ul {
+  list-style: none;
+  margin-top: 14px;
+}
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #fcfdf9;
+  transition: all 0.2s ease;
+}
+
+.file-list li:hover {
+  border-color: var(--primary);
+  background: #fff;
+}
+
+.file-list li span {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+li {
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #fcfdf9;
+  transition: all 0.2s ease;
+}
+
+li:hover {
+  border-color: var(--primary);
+  background: #fff;
+}
+
+/* ===== Links ===== */
+a {
+  color: #5d8728;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--primary-dark);
+}
+
+/* ===== Forms & Layout Helpers ===== */
+form {
+  margin: 14px 0;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.row input {
+  flex: 1;
+  min-width: 160px;
+  margin: 0;
+}
+
+.inline {
+  display: inline-block;
+  margin-right: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+  align-items: center;
+}
+
+.actions form {
+  margin: 0;
+}
+
+/* ===== Auth Pages ===== */
+.auth-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 44px 36px;
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 32px rgba(178, 226, 101, 0.18);
+  text-align: center;
+}
+
+.auth-card h2 {
+  margin-bottom: 24px;
+}
+
+.auth-card button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+}
+
+.auth-card p,
+.auth-card .switch-link {
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ===== Back Link ===== */
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--text-muted);
+}
+
+.back-link:hover {
+  color: var(--primary-dark);
+}
+
+/* ===== Empty State ===== */
+.empty {
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 12px 0;
+}

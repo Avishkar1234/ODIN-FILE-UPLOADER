@@ -9,18 +9,37 @@ passport.use(
     { usernameField: "email" },
     async (email, password, done) => {
       try {
-        const user = await prisma.user.findUnique({ where: { email } });
-        if (!user) return done(null, false, { message: "Incorrect email" });
+        console.log("🔵 LOGIN ATTEMPT:", email);
+
+        const user = await prisma.user.findUnique({
+          where: { email },
+        });
+
+        console.log("🟡 USER FOUND:", user);
+
+        if (!user) {
+          console.log("❌ No user found");
+          return done(null, false);
+        }
 
         const match = await bcrypt.compare(password, user.password);
-        if (!match) return done(null, false, { message: "Incorrect password" });
+
+        console.log("🟢 PASSWORD MATCH:", match);
+
+        if (!match) {
+          console.log("❌ Wrong password");
+          return done(null, false);
+        }
+
+        console.log("✅ LOGIN SUCCESS");
 
         return done(null, user);
       } catch (err) {
+        console.log("🔥 ERROR:", err);
         return done(err);
       }
-    }
-  )
+    },
+  ),
 );
 
 passport.serializeUser((user, done) => {
@@ -35,5 +54,7 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
+
+console.log("Strategy running");
 
 export default passport;

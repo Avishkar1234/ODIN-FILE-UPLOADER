@@ -40,10 +40,14 @@ router.get("/login", (req, res) => {
 // Login user
 router.post(
   "/login",
+  (req, res, next) => {
+    console.log("HIT LOGIN ROUTE");
+    next();
+  },
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/login",
-  })
+  }),
 );
 
 // // Dashboard route (protected)

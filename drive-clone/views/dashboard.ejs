@@ -1,52 +1,129 @@
-<h2>Welcome <%= user.email %></h2>
+<!DOCTYPE html>
 
-<a href="/logout">Logout</a>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
 
-<h3>Create Folder</h3>
-<form method="POST" action="/folders/create">
-  <input name="name" placeholder="Folder name" required />
-  <button type="submit">Create</button>
-</form>
+<div class="container">
 
-<h3>Your Folders</h3>
-<ul>
-  <% folders.forEach(folder => { %>
-    <li>
-      <h4><%= folder.name %></h4>
+<header class="header">
+    <div>
+        <h1>Drive Clone</h1>
+        <p>Welcome, <%= user.email %></p>
+    </div>
 
-      <!-- Upload Form -->
-      <form method="POST" action="/folders/<%= folder.id %>/upload" enctype="multipart/form-data">
-        <input type="file" name="file" required />
-        <button type="submit">Upload</button>
-      </form>
+    <a href="/logout" class="btn danger">
+        Logout
+    </a>
+</header>
 
-      <!-- Files -->
-      <ul>
-        <% folder.files.forEach(file => { %>
-          <li>
-            <a href="/files/<%= file.id %>"><%= file.name %></a>
-            (<%= file.size %> bytes)
-          </li>
-        <% }) %>
-      </ul>
+<section class="card">
+    <h2>Create Folder</h2>
 
-      <!-- Rename -->
-      <form method="POST" action="/folders/<%= folder.id %>/rename" style="display:inline;">
-        <input name="name" placeholder="New name" required />
-        <button type="submit">Rename</button>
-      </form>
+    <form method="POST" action="/folders/create">
+        <input
+            type="text"
+            name="name"
+            placeholder="Folder name"
+            required
+        >
+        <button type="submit" class="btn">
+            Create Folder
+        </button>
+    </form>
+</section>
 
-      <!-- Delete -->
-      <form method="POST" action="/folders/<%= folder.id %>/delete" style="display:inline;">
-        <button type="submit">Delete</button>
-      </form>
+<h2>Your Folders</h2>
 
-      <form method="POST" action="/folders/<%= folder.id %>/share">
-        <input name="duration" type="number" placeholder="Days (e.g., 1)" required />
-        <button type="submit">Share Folder</button>
-      </form>
+<% folders.forEach(folder => { %>
 
-      <hr>
-    </li>
-  <% }) %>
-</ul>
+    <div class="card folder-card">
+
+        <h3><%= folder.name %></h3>
+
+        <form
+            method="POST"
+            action="/folders/<%= folder.id %>/upload"
+            enctype="multipart/form-data"
+        >
+            <input type="file" name="file" required>
+            <button class="btn" type="submit">
+                Upload
+            </button>
+        </form>
+
+        <h4>Files</h4>
+
+        <% if(folder.files.length === 0){ %>
+            <p>No files uploaded yet.</p>
+        <% } %>
+
+        <ul class="file-list">
+            <% folder.files.forEach(file => { %>
+                <li>
+                    <a href="/files/<%= file.id %>">
+                        <%= file.name %>
+                    </a>
+
+                    <span>
+                        <%= Math.round(file.size / 1024) %> KB
+                    </span>
+                </li>
+            <% }) %>
+        </ul>
+
+        <div class="actions">
+
+            <form
+                method="POST"
+                action="/folders/<%= folder.id %>/rename"
+            >
+                <input
+                    name="name"
+                    placeholder="New folder name"
+                    required
+                >
+                <button class="btn">
+                    Rename
+                </button>
+            </form>
+
+            <form
+                method="POST"
+                action="/folders/<%= folder.id %>/delete"
+            >
+                <button class="btn danger">
+                    Delete
+                </button>
+            </form>
+
+        </div>
+
+        <form
+            method="POST"
+            action="/folders/<%= folder.id %>/share"
+        >
+            <input
+                type="number"
+                name="duration"
+                placeholder="Share duration (days)"
+                required
+            >
+
+            <button class="btn">
+                Generate Share Link
+            </button>
+        </form>
+
+    </div>
+
+<% }) %>
+```
+
+</div>
+
+</body>
+</html>
