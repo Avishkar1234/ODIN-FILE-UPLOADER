@@ -9,6 +9,7 @@ import folderRoutes from "./routes/folder.js";
 import fileRoutes from "./routes/file.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,12 +17,24 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PgStore = connectPgSimple(session);
 
-const viewsPath = path.join(process.cwd(), "views");
-const publicPath = path.join(process.cwd(), "public");
+const candidateViews = [
+  path.join(process.cwd(), "views"),
+  path.join(process.cwd(), "drive-clone", "views"),
+  path.join(__dirname, "views"),
+];
+const viewsPath =
+  candidateViews.find((p) => fs.existsSync(p)) || candidateViews[0];
 
-console.log("__dirname:", __dirname);
-console.log("cwd:", process.cwd());
-console.log("viewsPath:", viewsPath);
+const candidatePublic = [
+  path.join(process.cwd(), "public"),
+  path.join(process.cwd(), "drive-clone", "public"),
+  path.join(__dirname, "public"),
+];
+const publicPath =
+  candidatePublic.find((p) => fs.existsSync(p)) || candidatePublic[0];
+
+console.log("Resolved viewsPath:", viewsPath);
+console.log("Resolved publicPath:", publicPath);
 
 app.set("view engine", "ejs");
 app.set("views", viewsPath);
