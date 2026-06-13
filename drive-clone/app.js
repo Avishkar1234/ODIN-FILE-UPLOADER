@@ -16,12 +16,19 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PgStore = connectPgSimple(session);
 
+const viewsPath = path.join(process.cwd(), "views");
+const publicPath = path.join(process.cwd(), "public");
+
+console.log("__dirname:", __dirname);
+console.log("cwd:", process.cwd());
+console.log("viewsPath:", viewsPath);
+
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", viewsPath);
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(publicPath));
 
 app.use(
   session({
